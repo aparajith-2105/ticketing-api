@@ -14,8 +14,8 @@ USER appuser
 
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=3s \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')" || exit 1
+  CMD python -c "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:%s/health' % os.environ.get('PORT','8000'))" || exit 1
 
+# Hosts like Render pass the port in $PORT; locally it falls back to 8000.
 # One worker: the rate limiter is in-memory and tables are created at startup.
-# To scale out, move the limiter to Redis and use Alembic migrations first (see README).
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
