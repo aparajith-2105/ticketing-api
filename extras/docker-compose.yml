@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: tickets
+      POSTGRES_PASSWORD: tickets
+      POSTGRES_DB: tickets
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tickets"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://tickets:tickets@db:5432/tickets
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in your shell or a .env file}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
