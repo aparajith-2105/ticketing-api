@@ -5,7 +5,7 @@ Backend for an event ticketing platform: attendees browse and book tickets, orga
 | | |
 |---|---|
 | **Live API (Swagger)** | https://ticketing-api-2qo4.onrender.com/docs |
-| **Source** | https://github.com/YOUR-USERNAME/ticketing-api |
+| **Source** | https://github.com/aparajith-2105/ticketing-api |
 | **Tests** | `python -m pytest -v` → **56 passed**, incl. concurrent-booking race tests |
 
 > Free hosting tier: after inactivity the first request can take **~1 minute** to wake up. The free database expires ~30 days after creation.
